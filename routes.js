@@ -1,9 +1,21 @@
+
+const multer = require('multer');
+const path = require('path');
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, 'uploads/'),
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname)); // e.g. 1723452345.png
+  },
+});
+
+const upload = multer({ storage });
+
 const { User } = require('./models');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const authMiddleware = require('./auth');
 
-// REGISTER
 router.post('/api/register', async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -15,7 +27,6 @@ router.post('/api/register', async (req, res) => {
   }
 });
 
-// LOGIN
 router.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
@@ -28,7 +39,6 @@ router.post('/api/login', async (req, res) => {
   res.json({ token });
 });
 
-// PROTECT POST CREATION
 router.post('/api/posts', authMiddleware, postValidation, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
@@ -38,4 +48,3 @@ router.post('/api/posts', authMiddleware, postValidation, async (req, res) => {
   res.status(201).json(post);
 });
 
-// PROTECT POST EDIT/DELETE as well (same way)
