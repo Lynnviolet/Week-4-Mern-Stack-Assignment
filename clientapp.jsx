@@ -1,3 +1,17 @@
+router.post('/api/posts', upload.single('image'), postValidation, async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+
+  const newPost = new Post({
+    title: req.body.title,
+    content: req.body.content,
+    category: req.body.category,
+    image: req.file ? req.file.filename : null,
+  });
+
+  await newPost.save();
+  res.status(201).json(newPost);
+});
 import axios from 'axios';
 
 const API = axios.create({
