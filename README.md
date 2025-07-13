@@ -147,6 +147,6 @@ Task 5: Advanced Feature (Image Upload)	✅ Completed
 
 👩‍💻 Author
 Lynn Violet Wanjiru Kimotho
-💻 GitHub: @Lynnviolet
-📧 Email: lynnvioletwanjiru@gmail.com
+💻 GitHub: Lynnviolet
+📧 Email: shikkslynn@gmail.com
 
