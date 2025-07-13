@@ -1,21 +1,12 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import PostList from './pages/PostList';
-import PostForm from './pages/PostForm';
-import PostDetails from './pages/PostDetails';
+import axios from 'axios';
 
-function App() {
-  return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<PostList />} />
-        <Route path="/create" element={<PostForm />} />
-        <Route path="/edit/:id" element={<PostForm />} />
-        <Route path="/posts/:id" element={<PostDetails />} />
-      </Routes>
-    </Router>
-  );
-}
+const API = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+});
 
-export default App;
+export const fetchPosts = () => API.get('/posts');
+export const fetchPost = (id) => API.get(`/posts/${id}`);
+export const createPost = (data) => API.post('/posts', data);
+export const updatePost = (id, data) => API.put(`/posts/${id}`, data);
+export const deletePost = (id) => API.delete(`/posts/${id}`);
+export const fetchCategories = () => API.get('/categories');
